@@ -152,7 +152,7 @@ def begin_record_date_choose(message):
     device = user_info_open[str(message.from_user.id)]['device']
     first_record_date = devices_tech_info_open[device]['first_record_date']
     first_record_date = datetime.strptime(first_record_date, "%Y-%m-%d").date()
-    last_record_date = user_info_open['last_record_date']
+    last_record_date = user_info_open[str(message.from_user.id)]['last_record_date']
     last_record_date = datetime.strptime(last_record_date, "%Y-%m-%d").date()
     try:
         begin_record_date = datetime.strptime(message.text, "%d.%m.%Y").date()
@@ -227,7 +227,6 @@ def choose_columns(call):
                               reply_markup=draw_inline_keyboard(selected_columns, ava_col))
 
 
-        print("AAAAAA")
 
     elif text == 'next':
         if len(load_json('user_info.json')[str(call.from_user.id)]['selected_columns']) != 0:
