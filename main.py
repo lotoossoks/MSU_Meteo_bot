@@ -8,7 +8,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from telebot.types import CallbackQuery
 import plotly.graph_objects as go
-
 import config
 
 bot = telebot.TeleBot(config.token)
@@ -36,7 +35,6 @@ def preprocessing_all_files(message):
 def preprocessing_one_file(path):
     _, device, file_name = path.split('/')
     df = pd.read_csv(path, sep=None, engine='python')
-
     time_col = load_json('config_devices.json')[device]['time_cols']
     if device == "AE33-S09-01249":
         df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M")
@@ -57,6 +55,8 @@ def preprocessing_one_file(path):
     name = re.split("[-_]", file_name)
     if not os.path.exists(f'proc_data/{device}'):
         os.makedirs(f'proc_data/{device}')
+    df = df.sort_values(by=time_col)
+    print(df[time_col].diff().mode())
     df.to_csv(f'proc_data/{device}/{name[0]}_{name[1]}.csv')
     return f'proc_data/{device}/{name[0]}_{name[1]}.csv'
 
@@ -226,8 +226,6 @@ def choose_columns(call):
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Нажми",
                               reply_markup=draw_inline_keyboard(selected_columns, ava_col))
 
-
-
     elif text == 'next':
         if len(load_json('user_info.json')[str(call.from_user.id)]['selected_columns']) != 0:
             concat_files(call)
@@ -275,16 +273,12 @@ def concat_files(message):
     for col in cols_to_draw:
         color_cols_to_draw.append(device['color_dict'].get(col))"""
     fig = go.Figure()
-    for col in cols_to_draw:
-        fig.add_trace(go.Scatter(x=combined_data[time_col], y=combined_data[col],
-                                 mode='lines',
-                                 name=col,
-                                 marker_color=device_dict['color_dict'][col]))
     fig.update_layout(
         title=str(device),
         xaxis=dict(title="Time"),
         plot_bgcolor="white",
-        paper_bgcolor="white"
+        paper_bgcolor="white",
+        showlegend=True
     )
     fig.update_traces(line={'width': 2})
     fig.update_xaxes(gridcolor='grey',
@@ -298,6 +292,13 @@ def concat_files(message):
                      linewidth=1,
                      linecolor='black',
                      mirror=True)
+    for col in cols_to_draw:
+        fig.add_trace(go.Scatter(x=combined_data[time_col], y=combined_data[col],
+                                 mode='lines',
+                                 name=col,
+                                 line=go.scatter.Line(
+                                     color='rgb(' + ', '.join(list(map(str, device_dict['color_dict'][col]))) + ')')))
+    fig.show()
     fig.write_image(f"graphs_photo/{str(message.from_user.id)}.png")
     bot.send_photo(str(message.from_user.id), photo=open(f"graphs_photo/{str(message.from_user.id)}.png", 'rb'))
     plt.close()
