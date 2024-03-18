@@ -14,56 +14,16 @@
       "BCff"
     ],
     "color_dict": {
-      "BC1": [
-        126,
-        130,
-        250
-      ],
-      "BC2": [
-        190,
-        247,
-        124
-      ],
-      "BC3": [
-        138,
-        77,
-        195
-      ],
-      "BC4": [
-        171,
-        219,
-        69
-      ],
-      "BC5": [
-        50,
-        52,
-        32
-      ],
-      "BC6": [
-        185,
-        65,
-        91
-      ],
-      "BC7": [
-        90,
-        14,
-        24
-      ],
-      "BB(%)": [
-        57,
-        157,
-        79
-      ],
-      "BCbb": [
-        1,
-        88,
-        160
-      ],
-      "BCff": [
-        220,
-        80,
-        42
-      ]
+      "BC1": "#FD3216",
+      "BC2": "#00FE35",
+      "BC3": "#6A76FC",
+      "BC4": "#FED4C4",
+      "BC5": "#FE00CE",
+      "BC6": "#0DF9FF",
+      "BC7": "#F6F926",
+      "BB(%)": "#FF9616",
+      "BCbb": "#479B55",
+      "BCff": "#EEA6FB"
     }
   },
   "LVS": {
@@ -85,76 +45,20 @@
       "Sample ID"
     ],
     "color_dict": {
-      "Motorspeed(%)": [
-        126,
-        130,
-        250
-      ],
-      "Actual(m3/h)": [
-        190,
-        247,
-        124
-      ],
-      "Actual(Nm3/h)": [
-        138,
-        77,
-        195
-      ],
-      "Actual(m3)": [
-        171,
-        219,
-        69
-      ],
-      "Actual(Nm3)": [
-        50,
-        52,
-        32
-      ],
-      "Filter Press.(hPa)": [
-        185,
-        65,
-        91
-      ],
-      "Air Pressure(hPa)": [
-        90,
-        14,
-        24
-      ],
-      "Outdoor Temp.('C)": [
-        57,
-        157,
-        79
-      ],
-      "Filter Temp.('C)": [
-        1,
-        88,
-        160
-      ],
-      "Chamber Temp.('C)": [
-        220,
-        80,
-        42
-      ],
-      "Temperature orifice('C)": [
-        244,
-        150,
-        86
-      ],
-      "Rel.Humidity(%)": [
-        39,
-        17,
-        174
-      ],
-      "Magazine Position": [
-        112,
-        184,
-        180
-      ],
-      "Sample ID": [
-        130,
-        113,
-        74
-      ]
+      "Motorspeed(%)": "#FD3216",
+      "Actual(m3/h)": "#00FE35",
+      "Actual(Nm3/h)": "#6A76FC",
+      "Actual(m3)": "#FED4C4",
+      "Actual(Nm3)": "#FE00CE",
+      "Filter Press.(hPa)": "#0DF9FF",
+      "Air Pressure(hPa)": "#F6F926",
+      "Outdoor Temp.('C)": "#FF9616",
+      "Filter Temp.('C)": "#479B55",
+      "Chamber Temp.('C)": "#EEA6FB",
+      "Temperature orifice('C)": "#DC587D",
+      "Rel.Humidity(%)": "#D626FF",
+      "Magazine Position": "#6E899C",
+      "Sample ID": "#00B5F7"
     }
   },
   "PNS": {
@@ -176,76 +80,20 @@
       "Sample ID"
     ],
     "color_dict": {
-      "Motorspeed(%)": [
-        126,
-        130,
-        250
-      ],
-      "Actual(m3/h)": [
-        190,
-        247,
-        124
-      ],
-      "Actual(Nm3/h)": [
-        138,
-        77,
-        195
-      ],
-      "Actual(m3)": [
-        171,
-        219,
-        69
-      ],
-      "Actual(Nm3)": [
-        50,
-        52,
-        32
-      ],
-      "Filter Press.(hPa)": [
-        185,
-        65,
-        91
-      ],
-      "Air Pressure(hPa)": [
-        90,
-        14,
-        24
-      ],
-      "Outdoor Temp.('C)": [
-        57,
-        157,
-        79
-      ],
-      "Filter Temp.('C)": [
-        1,
-        88,
-        160
-      ],
-      "Chamber Temp.('C)": [
-        220,
-        80,
-        42
-      ],
-      "Temperature orifice('C)": [
-        244,
-        150,
-        86
-      ],
-      "Rel.Humidity(%)": [
-        39,
-        17,
-        174
-      ],
-      "Magazine Position": [
-        112,
-        184,
-        180
-      ],
-      "Sample ID": [
-        130,
-        113,
-        74
-      ]
+      "Motorspeed(%)": "#FD3216",
+      "Actual(m3/h)": "#00FE35",
+      "Actual(Nm3/h)": "#6A76FC",
+      "Actual(m3)": "#FED4C4",
+      "Actual(Nm3)": "#FE00CE",
+      "Filter Press.(hPa)": "#0DF9FF",
+      "Air Pressure(hPa)": "#F6F926",
+      "Outdoor Temp.('C)": "#FF9616",
+      "Filter Temp.('C)": "#479B55",
+      "Chamber Temp.('C)": "#EEA6FB",
+      "Temperature orifice('C)": "#DC587D",
+      "Rel.Humidity(%)": "#D626FF",
+      "Magazine Position": "#6E899C",
+      "Sample ID": "#00B5F7"
     }
   },
   "TCA08": {
@@ -262,51 +110,15 @@
       "CO2"
     ],
     "color_dict": {
-      "TCcounts": [
-        126,
-        130,
-        250
-      ],
-      "TCmass": [
-        190,
-        247,
-        124
-      ],
-      "TCconc": [
-        138,
-        77,
-        195
-      ],
-      "AE33_BC6": [
-        171,
-        219,
-        69
-      ],
-      "AE33_ValidData": [
-        50,
-        52,
-        32
-      ],
-      "AE33_b": [
-        185,
-        65,
-        91
-      ],
-      "OC": [
-        90,
-        14,
-        24
-      ],
-      "EC": [
-        57,
-        157,
-        79
-      ],
-      "CO2": [
-        1,
-        88,
-        160
-      ]
+      "TCcounts": "#FD3216",
+      "TCmass": "#00FE35",
+      "TCconc": "#6A76FC",
+      "AE33_BC6": "#FED4C4",
+      "AE33_ValidData": "#FE00CE",
+      "AE33_b": "#0DF9FF",
+      "OC": "#F6F926",
+      "EC": "#FF9616",
+      "CO2": "#479B55"
     }
   },
   "Web_MEM": {
@@ -322,46 +134,14 @@
       "SO2"
     ],
     "color_dict": {
-      "CH4": [
-        126,
-        130,
-        250
-      ],
-      "CO": [
-        190,
-        247,
-        124
-      ],
-      "NO": [
-        138,
-        77,
-        195
-      ],
-      "NO2": [
-        171,
-        219,
-        69
-      ],
-      "OZ": [
-        50,
-        52,
-        32
-      ],
-      "PM10": [
-        185,
-        65,
-        91
-      ],
-      "PM2.5": [
-        90,
-        14,
-        24
-      ],
-      "SO2": [
-        57,
-        157,
-        79
-      ]
+      "CH4": "#FD3216",
+      "CO": "#00FE35",
+      "NO": "#6A76FC",
+      "NO2": "#FED4C4",
+      "OZ": "#FE00CE",
+      "PM10": "#0DF9FF",
+      "PM2.5": "#F6F926",
+      "SO2": "#FF9616"
     }
   }
 }

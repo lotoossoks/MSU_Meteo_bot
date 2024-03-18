@@ -269,9 +269,6 @@ def concat_files(message):
         combined_data = combined_data.resample('60min').mean()
     cols_to_draw = user_id['selected_columns']
     combined_data.reset_index(inplace=True)
-    """color_cols_to_draw = []
-    for col in cols_to_draw:
-        color_cols_to_draw.append(device['color_dict'].get(col))"""
     fig = go.Figure()
     fig.update_layout(
         title=str(device),
@@ -297,8 +294,7 @@ def concat_files(message):
                                  mode='lines',
                                  name=col,
                                  line=go.scatter.Line(
-                                     color='rgb(' + ', '.join(list(map(str, device_dict['color_dict'][col]))) + ')')))
-    fig.show()
+                                     color=device_dict['color_dict'][col])))
     fig.write_image(f"graphs_photo/{str(message.from_user.id)}.png")
     bot.send_photo(str(message.from_user.id), photo=open(f"graphs_photo/{str(message.from_user.id)}.png", 'rb'))
     plt.close()
