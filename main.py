@@ -245,7 +245,6 @@ def choose_columns(call):
         bot.answer_callback_query(call.id, 'Вы выбрали Фичу ' + feature)
         selected_columns = user_info_open[str(call.from_user.id)]['selected_columns']
         ava_col = load_json('config_devices.json')[user_info_open[str(call.from_user.id)]['device']]['cols']
-        """bot.edit_message_text(call.id, reply_markup=draw_inline_keyboard(selected_columns, ava_col))"""
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Нажми",
                               reply_markup=draw_inline_keyboard(selected_columns, ava_col))
 
