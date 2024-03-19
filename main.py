@@ -63,8 +63,14 @@ def preprocessing_one_file(path):
 
 @bot.message_handler(commands=['start'])
 def start(message):
+    d = load_json('user_info.json')
+    if str(message.from_user.id) not in d.keys():
+        d[str(message.from_user.id)] = {}
+    d[str(message.from_user.id)]['update_quick_access'] = False
+    upload_json('user_info.json', d)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(types.KeyboardButton("Просмотр данных с приборов"))
+    markup.add(types.KeyboardButton("Быстрый доступ"))
     bot.send_message(message.chat.id,
                      text=f"Здравствуйте, коллега. Этот бот создан для просмотра данных с этих приборов: "
                           f"{', '.join(list_devices)}",
@@ -94,20 +100,37 @@ def work_with_first_file(user_id):
     upload_json('devices_tech_info.json', devices_tech_info_open)
 
 
-@bot.message_handler(func=lambda message: message.text == 'Просмотр данных с приборов' or message.text in list_devices)
+@bot.message_handler(func=lambda
+        message: message.text in ['Просмотр данных с приборов', 'Быстрый доступ',
+                                  'Настроить быстрый доступ'] + list_devices)
 def choose_device(message):
-    if message.text == 'Просмотр данных с приборов':
+    if message.text in ['Просмотр данных с приборов', 'Настроить быстрый доступ']:
+        if message.text == 'Настроить быстрый доступ':
+            d = load_json('user_info.json').copy()
+            d[str(message.from_user.id)]['update_quick_access'] = True
+            upload_json('user_info.json', d)
         markup = types.ReplyKeyboardMarkup(row_width=1)
         markup.add(*list(map(lambda x: types.KeyboardButton(x), list_devices)))
         bot.send_message(message.chat.id, "Выберите прибор", reply_markup=markup)
 
     elif message.text in list_devices:
         user_info_open = load_json('user_info.json')
-        user_info_open[str(message.from_user.id)] = {'device': message.text}
+        user_info_open[str(message.from_user.id)]['device'] = message.text
         upload_json('user_info.json', user_info_open)
         work_with_latest_file(str(message.from_user.id))
         work_with_first_file(str(message.from_user.id))
         choose_time_delay(message)
+    elif message.text == 'Быстрый доступ':
+        markup = types.ReplyKeyboardMarkup(row_width=1)
+        markup.add('Настроить быстрый доступ')
+        if 'quick_access' in load_json('user_info.json')[str(message.from_user.id)].keys():
+            markup.add('Отрисовка графика')
+        bot.send_message(message.chat.id, "Выберите действие", reply_markup=markup)
+
+
+@bot.message_handler(func=lambda message: message.text == 'Отрисовка графика')
+def logic_draw_plot(message):
+    concat_files(message)
 
 
 @bot.message_handler(func=lambda message: message.text in ['2 дня', '7 дней', '14 дней',
@@ -243,8 +266,23 @@ def choose_columns(call):
 
 
 def concat_files(message):
+    if isinstance(message, CallbackQuery):
+        text = message.data
+    else:
+        text = message.text
+
     user_info_open = load_json('user_info.json')
-    user_id = user_info_open[str(message.from_user.id)]
+    if user_info_open[str(message.from_user.id)]['update_quick_access']:
+        user_info_open[str(message.from_user.id)]['quick_access'] = user_info_open[str(message.from_user.id)].copy()
+        user_info_open[str(message.from_user.id)]['update_quick_access'] = False
+        upload_json('user_info.json', user_info_open)
+        bot.send_message(str(message.from_user.id), 'Параметры для быстрого доступа выбраны. ')
+    if text == 'Отрисовка графика':
+        user_info_open = load_json('user_info.json')
+        user_id = user_info_open[str(message.from_user.id)]['quick_access']
+    else:
+        user_info_open = load_json('user_info.json')
+        user_id = user_info_open[str(message.from_user.id)]
     device = user_id['device']
     begin_record_date = datetime.strptime(user_id['begin_record_date'], '%Y-%m-%d')
     end_record_date = datetime.strptime(user_id['last_record_date'], '%Y-%m-%d')
