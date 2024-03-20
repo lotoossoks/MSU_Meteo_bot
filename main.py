@@ -51,13 +51,24 @@ def preprocessing_one_file(path):
     cols_to_draw = load_json('config_devices.json')[device]['cols']
     time_col = load_json('config_devices.json')[device]['time_cols']
     df = df[cols_to_draw + [time_col]]
-    df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+    df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
     name = re.split("[-_]", file_name)
     if not os.path.exists(f'proc_data/{device}'):
         os.makedirs(f'proc_data/{device}')
     df = df.sort_values(by=time_col)
-    print(df[time_col].diff().mode())
-    df.to_csv(f'proc_data/{device}/{name[0]}_{name[1]}.csv')
+    diff_mode = df[time_col].diff().mode().values[0] * 1.1
+    new_rows = []
+    for i in range(len(df) - 1):
+        diff = (df.loc[i + 1, time_col] - df.loc[i, time_col])
+        if diff > diff_mode:
+            new_date1 = df.loc[i, time_col] + pd.Timedelta(seconds=1)
+            new_date2 = df.loc[i + 1, time_col] - pd.Timedelta(seconds=1)
+            new_row1 = {time_col: new_date1}
+            new_row2 = {time_col: new_date2}
+            new_rows.extend([new_row1, new_row2])
+    df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
+    df = df.sort_values(by=time_col)
+    df.to_csv(f'proc_data/{device}/{name[0]}_{name[1]}.csv', index=False)
     return f'proc_data/{device}/{name[0]}_{name[1]}.csv'
 
 
@@ -67,6 +78,7 @@ def start(message):
     if str(message.from_user.id) not in d.keys():
         d[str(message.from_user.id)] = {}
     d[str(message.from_user.id)]['update_quick_access'] = False
+    d[str(message.from_user.id)].pop('selected_columns', None)
     upload_json('user_info.json', d)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(types.KeyboardButton("Просмотр данных с приборов"))
