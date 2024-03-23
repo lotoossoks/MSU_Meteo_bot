@@ -12,6 +12,7 @@ import config
 
 bot = telebot.TeleBot(config.token)
 main_path = 'data'
+main_path = config.data_path
 list_devices = os.listdir(main_path)
 
 
@@ -34,20 +35,28 @@ def preprocessing_all_files(message):
 
 def preprocessing_one_file(path):
     _, device, file_name = path.split('/')
+    
+    if device not in ["AE33-S09-01249", "LVS", "PNS", "TCA08", "Web_MEM"]:
+        return
+        
+    print(path)
     df = pd.read_csv(path, sep=None, engine='python')
     time_col = load_json('config_devices.json')[device]['time_cols']
     if device == "AE33-S09-01249":
         df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M")
-    if device == "LVS" or device == "PNS":
+    elif device == "LVS" or device == "PNS":
         col = list(df.columns)
         df = df.drop('Error', axis=1)
         col.remove("Time")
         df.columns = col
         df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M:%S")
-    if device == "TCA08":
+    elif device == "TCA08":
         df[time_col] = pd.to_datetime(df[time_col], format="%Y-%m-%d %H:%M:%S")
-    if device == "Web_MEM":
+    elif device == "Web_MEM":
         df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M")
+    else:
+        return
+        
     cols_to_draw = load_json('config_devices.json')[device]['cols']
     time_col = load_json('config_devices.json')[device]['time_cols']
     df = df[cols_to_draw + [time_col]]
@@ -197,7 +206,7 @@ def begin_record_date_choose(message):
         upload_json('user_info.json', user_info_open)
         choose_not_default_finish_date(message)
     except ValueError:
-        bot.send_message(message.chat.id, "Введенане корректная дата")
+        bot.send_message(message.chat.id, "Введена некорректная дата")
         choose_not_default_start_date(message)
 
 
