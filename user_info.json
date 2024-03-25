@@ -1,1 +1,13 @@
-{"989370498": {"device": "AE33-S09-01249", "last_record_date": "2024-01-31", "update_quick_access": false, "begin_record_date": "2024-01-24", "selected_columns": ["BC1", "BC2", "BC3", "BC4", "BC5", "BC6", "BC7", "BB(%)", "BCbb", "BCff"], "quick_access": {"device": "AE33-S09-01249", "last_record_date": "2024-01-31", "update_quick_access": true, "begin_record_date": "2024-01-29", "selected_columns": ["BC1", "BC2", "BC3", "BC4", "BC5", "BC6", "BC7", "BB(%)", "BCbb", "BCff"]}}}
+{
+  "989370498": {
+    "update_quick_access": false,
+    "device_to_choose": [
+      "AE33-S09-01249",
+      "TCA08",
+      "Web_MEM"
+    ],
+    "device": "AE33-S09-01249",
+    "last_record_date": "2024-01-31",
+    "begin_record_date": "2023-07-01"
+  }
+}
