@@ -24,7 +24,8 @@
       "BB(%)": "#FF9616",
       "BCbb": "#479B55",
       "BCff": "#EEA6FB"
-    }
+    },
+    "format": "%d.%m.%Y %H:%M"
   },
   "LVS": {
     "time_cols": "Date",
@@ -59,7 +60,8 @@
       "Rel.Humidity(%)": "#D626FF",
       "Magazine Position": "#6E899C",
       "Sample ID": "#00B5F7"
-    }
+    },
+    "format": "%d.%m.%Y %H:%M:%S"
   },
   "PNS": {
     "time_cols": "Date",
@@ -94,7 +96,8 @@
       "Rel.Humidity(%)": "#D626FF",
       "Magazine Position": "#6E899C",
       "Sample ID": "#00B5F7"
-    }
+    },
+    "format": "%d.%m.%Y %H:%M:%S"
   },
   "TCA08": {
     "time_cols": "EndTimeUTC",
@@ -119,7 +122,8 @@
       "OC": "#F6F926",
       "EC": "#FF9616",
       "CO2": "#479B55"
-    }
+    },
+    "format": "%Y-%m-%d %H:%M:%S"
   },
   "Web_MEM": {
     "time_cols": "datetime",
@@ -142,6 +146,7 @@
       "PM10": "#0DF9FF",
       "PM2.5": "#F6F926",
       "SO2": "#FF9616"
-    }
+    },
+    "format": "%d.%m.%Y %H:%M"
   }
 }

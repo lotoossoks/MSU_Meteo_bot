@@ -55,23 +55,13 @@ def preprocessing_one_file(path):
     df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
     if not os.path.exists(f'proc_data/{device}'):
         os.makedirs(f'proc_data/{device}')
-    if device == "AE33-S09-01249":
-        df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M")
-    elif device == "LVS" or device == "PNS":
-        df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M:%S")
-    elif device == "TCA08":
-        df[time_col] = pd.to_datetime(df[time_col], format="%Y-%m-%d %H:%M:%S")
-    elif device == "Web_MEM":
-        df[time_col] = pd.to_datetime(df[time_col], format="%d.%m.%Y %H:%M")
-    else:
-        return
+    df[time_col] = pd.to_datetime(df[time_col], format=config_device_open['format'])
     df = df.sort_values(by=time_col)
     diff_mode = df[time_col].diff().mode().values[0] * 1.1
     new_rows = []
     for i in range(len(df) - 1):
         diff = (df.loc[i + 1, time_col] - df.loc[i, time_col])
         if diff > diff_mode:
-            print(diff)
             new_date1 = df.loc[i, time_col] + pd.Timedelta(seconds=1)
             new_date2 = df.loc[i + 1, time_col] - pd.Timedelta(seconds=1)
             new_row1 = {time_col: new_date1}
@@ -142,7 +132,6 @@ def update_quick_access(message):
 def all_devices(message):
     ID_user = str(message.from_user.id)
     user_info_open = load_json('user_info.json')
-    print(user_info_open[ID_user]['device_to_choose'])
     if not user_info_open[ID_user]['device_to_choose']:
         user_info_open[ID_user]['device_to_choose'] = list_devices
         upload_json('user_info.json', user_info_open)
@@ -378,12 +367,10 @@ def concat_files(message):
     end_record_date = pd.to_datetime(end_record_date)
     device_dict = load_json('config_devices.json')[device]
     time_col = device_dict['time_cols']
-    print(type(combined_data), list(combined_data.columns))
     combined_data[time_col] = pd.to_datetime(combined_data[time_col], format="%Y-%m-%d %H:%M:%S")
     combined_data = combined_data[
         (combined_data[time_col] >= begin_record_date) & (combined_data[time_col] <= end_record_date)]
     combined_data.set_index(time_col, inplace=True)
-    combined_data = combined_data.replace(',', '.', regex=True).astype(float)
     if (end_record_date - begin_record_date).days > 2 and len(combined_data) >= 500:
         combined_data = combined_data.resample('60min').mean()
     cols_to_draw = user_id['selected_columns']
