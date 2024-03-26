@@ -42,7 +42,6 @@
       "Chamber Temp.('C)",
       "Temperature orifice('C)",
       "Rel.Humidity(%)",
-      "Magazine Position",
       "Sample ID"
     ],
     "color_dict": {
@@ -78,7 +77,6 @@
       "Chamber Temp.('C)",
       "Temperature orifice('C)",
       "Rel.Humidity(%)",
-      "Magazine Position",
       "Sample ID"
     ],
     "color_dict": {

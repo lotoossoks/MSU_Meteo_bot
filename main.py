@@ -25,7 +25,7 @@ def upload_json(path, to_save):
 bot = telebot.TeleBot(config.token)
 config_devices_open = load_json('config_devices.json')
 list_devices = list(config_devices_open.keys())
-disk_path = 'ya_disk'
+disk_path = 'external_data'
 main_path = 'data'
 conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
@@ -356,7 +356,7 @@ def concat_files(message):
     begin_record_date = datetime.strptime(user_id['begin_record_date'], '%Y-%m-%d')
     end_record_date = datetime.strptime(user_id['last_record_date'], '%Y-%m-%d')
     current_date, combined_data = begin_record_date, pd.DataFrame()
-    while current_date <= end_record_date + timedelta(days=32):
+    while current_date <= end_record_date + timedelta(days=100):
         try:
             data = pd.read_csv(f"proc_data/{device}/{current_date.strftime('%Y_%m')}.csv")
             combined_data = pd.concat([combined_data, data], ignore_index=True)
@@ -369,8 +369,9 @@ def concat_files(message):
     time_col = device_dict['time_cols']
     combined_data[time_col] = pd.to_datetime(combined_data[time_col], format="%Y-%m-%d %H:%M:%S")
     combined_data = combined_data[
-        (combined_data[time_col] >= begin_record_date) & (combined_data[time_col] <= end_record_date)]
+        (combined_data[time_col] >= begin_record_date) & (combined_data[time_col] <= end_record_date + timedelta(days=1))]
     combined_data.set_index(time_col, inplace=True)
+    combined_data = combined_data.replace(',', '.', regex=True).astype(float)
     if (end_record_date - begin_record_date).days > 2 and len(combined_data) >= 500:
         combined_data = combined_data.resample('60min').mean()
     cols_to_draw = user_id['selected_columns']
